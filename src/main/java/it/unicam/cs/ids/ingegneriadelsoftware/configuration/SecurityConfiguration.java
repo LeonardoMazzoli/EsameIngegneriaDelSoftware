@@ -28,4 +28,13 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         http.authorizeHttpRequests(authorize -> authorize.antMatchers("/favicon.ico", "/")
                 .permitAll().anyRequest().authenticated()).httpBasic(withDefaults()).formLogin(withDefaults());
     }
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.userDetailsService(userService).passwordEncoder(passwordEncoder());
+    }
+
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
 }
