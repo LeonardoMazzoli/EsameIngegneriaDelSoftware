@@ -10,6 +10,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Set;
 
 @Entity
 @Table(name = "USER")
@@ -34,6 +35,9 @@ public class User implements UserDetails {
     @NotEmpty
     @Enumerated(EnumType.STRING)
     private Roles roles;
+
+    @ManyToMany(mappedBy = "tripParticipants", fetch = FetchType.EAGER)
+    private Set<Trip> userTrips;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
