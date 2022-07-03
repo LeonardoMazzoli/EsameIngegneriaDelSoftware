@@ -15,5 +15,15 @@ public class StageService {
     public StageService(TripService tripService) {
         this.tripService = tripService;
     }
+
+    @Transactional
+    public void save(Stage stage, Long tripId) {
+        if (stage == null) throw new NullPointerException("Tappa Nulla");
+        if (tripId == null || tripId < 0) throw new IllegalArgumentException("Id del viaggio non valido");
+        Trip trip = this.tripService.findByID(tripId);
+        trip.getTripStages().add(stage);
+        this.tripService.save(trip);
+    }
 }
+
 
